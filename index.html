@@ -409,8 +409,8 @@ const PROJECTS = [
     title: "Cena Fría — Alec Grace",
     caption: "Music video, cover art and 3D visuals for Alec Grace's single.",
     gc: "1 / 4", gr: "1 / 5",
-    img: "img/CF_CoverArt.png",
-    video: null,
+    img: null,
+    video: "img/CF_thumbnail.mp4",
     role: [["Role","3D Generalist / Art Direction"],["Tools","ZBrush · Blender · Photoshop · Premiere Pro"],["Year","2025"]],
     heroImg: "img/CF_title.png",
 
@@ -429,7 +429,7 @@ blocks: [
         // 1. Reproductor de Spotify incrustado usando tu ID
         after: [ { type:"spotify", id:"5FbIdjsblZgWzhFOD8wM1C", hint:"Spotify player" } ],
         media: [
-          { type:"img",  src:"img/CF_title.png", ratio:"1/1",  cap:"Cover art", hint:"img/CF_cover.png" },
+          { type:"img",  src:"img/CF_CoverArt.png", ratio:"1/1",  cap:"Cover art", hint:"img/CF_cover.png" },
           { type:"loop", src:"",                 ratio:"9/16", cap:"Spotify Canvas", hint:"img/CF_canvas.mp4" }
         ],
         mediaLayout: "row"
@@ -507,7 +507,7 @@ blocks: [
     caption: "3D visuals and motion graphics for the UPM rocketry team.",
     gc: "1 / 4", gr: "5 / 8",
     img: null,
-    video: "img/LEEM_URSA_Reveal.mp4",
+    video: "img/LEEM_URSA_Reveal_thumbnail.mp4",
     role: [["Role","3D Visuals & Motion Graphics"],["Tools","Blender · After Effects"],["Year","2024–2025"]],
     heroImg: null,
     sections: [
@@ -546,8 +546,8 @@ blocks: [
     title: "VR and 3D educational simulations",
     caption: "VR environments and simulations for educational purposes.",
     gc: "4 / 7", gr: "1 / 5",
-    img: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1200&auto=format&fit=crop",
-    video: null,
+    img: null,
+    video: "img/ViralReality_thumbnail2.mp4",
     role: [["Role","Gameplay Programmer and Design | 3D Generalist"],["Tools","Unreal Engine · Blender"],["Year","2024"]],
     heroImg: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1600&auto=format&fit=crop",
     
@@ -588,10 +588,10 @@ blocks: [
     title: "Videogame - Immunoterapp",
     caption: "Educational mobile game about immunotherapy, as lead programmer.",
     gc: "4 / 7", gr: "5 / 8",
-    img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
-    video: null,
+    img: null,
+    video: "img/INMUN_thumbnail.mp4",
     role: [["Role","Lead Programmer"],["Tools","Unity · C#"],["Year","2023–2024"]],
-    heroImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1600&auto=format&fit=crop",
+    heroImg: null,
       sections: [
         {
           num: "01",
@@ -625,7 +625,7 @@ blocks: [
     caption: "Independent animation and 3D art pieces outside of formal projects.",
     gc: "1 / 7", gr: "8 / 11",
     img: null,
-    video: "img/ANIM_attack.mp4",
+    video: "img/anims_thumbnail.mp4",
     role: [["Role","3D Artist"],["Tools","Blender"],["Year","Ongoing"]],
     heroImg: null,
     sections: [
@@ -645,7 +645,7 @@ function tileMedia(p){
   if(p.video){
     // preload="auto" so the browser shows the first frame as a
     // thumbnail even without hovering over it.
-    return `<video class="media" src="${p.video}" ${p.img ? `poster="${p.img}"` : ""} muted loop playsinline preload="auto"></video>`;
+    return `<video class="media" src="${p.video}" ${p.img ? `poster="${p.img}"` : ""} muted loop autoplay playsinline preload="auto"></video>`;
   }
   return `<div class="media" style="background-image:url('${p.img}')"></div>`;
 }
@@ -760,14 +760,14 @@ function renderProject(slug){
 }
 
 /* ---------------- router ---------------- */
-function attachHoverVideos(container){
+/*function attachHoverVideos(container){
   container.querySelectorAll(".tile").forEach(tile => {
     const v = tile.querySelector("video");
     if(!v) return;
     tile.addEventListener("mouseenter", () => { v.play().catch(()=>{}); });
     tile.addEventListener("mouseleave", () => { v.pause(); v.currentTime = 0; });
   });
-}
+}*/
 
 function route(){
   const hash = location.hash || "#/";
@@ -782,7 +782,7 @@ function route(){
     app.innerHTML = renderProject(slug);
   } else {
     app.innerHTML = `<div class="wrap">${renderHome()}</div>`;
-    attachHoverVideos(app);
+    //attachHoverVideos(app);
   }
   window.scrollTo(0,0);
 }
