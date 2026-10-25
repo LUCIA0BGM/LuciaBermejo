@@ -14,9 +14,9 @@
     --line: #26262e;
     --text: #edece6;
     --text-dim: #8b8b95;
-    --accent: #ff6a3d;      /* orange for "selected object" in 3D viewports */
-    --accent-dim: #ff6a3d55;
-    --wire: #5ce1e6;        /* cyan for wireframe edges */
+    --accent: #ffce2e;      /* purple-blue accent */
+    --accent-dim: #8344f855;
+    --wire: #51a9ec;        /* greenish turquoise */
     --radius: 2px;
   }
 
@@ -108,7 +108,7 @@
     display:block;
   }
   .intro p{
-    font-size: 21px;
+    font-size: 18px;
     line-height: 1.55;
     color: var(--text);
     margin: 0;
@@ -322,18 +322,19 @@
   .blk.full{ display:block; }
   .blk.full .blk-media{ margin-top: 28px; }
   .blk.sub{ padding-top: 36px; }
+  .blk.nomedia .body{ max-width: none; }
   .blk.sub h2{ font-size: 20px; }
   .blk-text{ position:sticky; top: 92px; }
   .blk.full .blk-text{ position:static; }
   .blk .num{ font-size:12px; color:var(--accent); margin-bottom:10px; display:block; }
   .blk h2{ font-size:24px; margin:0 0 16px; }
-  .blk .body{ color:var(--text-dim); font-size:15.5px; line-height:1.7; margin:0 0 14px; max-width:700px; }
+  .blk .body{ color:var(--text-dim); font-size:14px; line-height:1.7; margin:0 0 14px; max-width:700px; }
   .blk .body b{ color:var(--text); font-weight:500; }
   .blk-text .mset{ margin-top: 22px; }
 
   .mset{ display:flex; gap:14px; align-items:flex-start; }
   .mset.stack{ flex-direction:column; align-items:stretch; }
-  .mset.grid{ display:grid; grid-template-columns: repeat(var(--cols,2), minmax(0,1fr)); }
+  .mset.mgrid{ display:grid; grid-template-columns: repeat(var(--cols,2), minmax(0,1fr)); }
   .mi{ margin:0; min-width:0; }
   .mset.stack .mi{ width:100%; }
   .frame{
@@ -358,8 +359,18 @@
     .blk, .blk.flip{ grid-template-columns: 1fr; gap: 28px; }
     .blk.flip .blk-media{ order:0; }
     .blk-text{ position:static; }
-    .mset.grid{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    .mset.mgrid{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
   }
+  .blk .body a, .about-more a{ color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
+  .about-more{ margin-top:24px; font-size:14px; color:var(--text-dim); line-height:1.7; }
+  .intro .about-more p{ margin:0 0 16px; font-size:14px; color:var(--text-dim); line-height:1.7; }
+  .intro .about-more .links{ font-size:13px; margin-top:24px; }
+  .about-more .tools{ font-size:12.5px; line-height:2; }
+  .about-more .tools b{ color:var(--wire); font-weight:500; margin-right:12px; }
+  .links a, .foot-links a{ color:var(--text-dim); text-decoration:none; margin-right:20px; }
+  .links a:hover, .foot-links a:hover{ color:var(--accent); }
+  .foot{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .foot-links a{ margin:0 0 0 20px; }
 </style>
 </head>
 <body>
@@ -377,26 +388,13 @@
 <main id="app"><div class="wrap"></div></main>
 
 <footer>
-  <div class="wrap">© 2026 Lucía Bermejo — 3D Generalist</div>
+  <div class="wrap foot"><span>© 2026 Lucía Bermejo — 3D Generalist</span><span class="foot-links mono" id="foot-links"></span></div>
 </footer>
 
 <script>
 /* =========================================================
    PROJECT DATA
-   -> Replace "img" with the URL of your actual image
-   -> Replace "video" with your video URL (mp4) if you have one;
-      if there's no video, leave video: null and only the image will show.
-   -> "gc" / "gr" control the tile's position and size in the mosaic
-      (grid-column / grid-row)
-   -> Each project has its own "sections" array for the detail page
-      (edit it with your real process and results)
 ========================================================= */
-
-
-
-
-
-
 
 const PROJECTS = [
   /*- - - - - - - - 
@@ -411,14 +409,9 @@ const PROJECTS = [
     gc: "1 / 4", gr: "1 / 5",
     img: null,
     video: "img/CF_thumbnail.mp4",
-    role: [["Role","3D Generalist / Art Direction"],["Tools","ZBrush · Blender · Photoshop · Premiere Pro"],["Year","2025"]],
+    role: [["Role","3D Generalist / Art Direction"],["Tools","ZBrush · Blender · Photoshop · Premiere Pro"],["Year","2025 – Ongoing"]],
     heroImg: "img/CF_title.png",
-
-    /* Block types:  img | loop (muted autoplay loop) | video (with controls) | youtube {id} | spotify {id}
-       layout: "split" (text + media side by side, flip:true swaps sides) | "full" (text on top, media below)
-       mediaLayout: "stack" | "row" (ratios keep heights equal) | "grid" (use cols)
-       Missing src/id => dashed placeholder showing the hint. */
-blocks: [
+    blocks: [
       {
         num: "00", heading: "Overview",
         text: [
@@ -426,11 +419,9 @@ blocks: [
           "The project involved creating a 3D version of Alec and placing him inside a visual narrative that captures the emotions of the song, but through a more symbolic and abstract lens.",
           "As a 3D Generalist, I managed the entire production pipeline."
         ],
-        // 1. Reproductor de Spotify incrustado usando tu ID
         after: [ { type:"spotify", id:"5FbIdjsblZgWzhFOD8wM1C", hint:"Spotify player" } ],
         media: [
-          { type:"img",  src:"img/CF_CoverArt.png", ratio:"1/1",  cap:"Cover art", hint:"img/CF_cover.png" },
-          { type:"loop", src:"",                 ratio:"9/16", cap:"Spotify Canvas", hint:"img/CF_canvas.mp4" }
+          { type:"img",  src:"img/CF_CoverArt.png", ratio:"1/1", cap:"Cover art", maxw:"460px" }
         ],
         mediaLayout: "row"
       },
@@ -455,8 +446,7 @@ blocks: [
           "It gave us a clear overview of the video while keeping the flexibility to tweak or change shots."
         ],
         media: [
-          { type:"video", src:"", hint:"img/CF_animatic.mp4", cap:"3D animatic" },
-          { type:"img",   src:"", hint:"img/CF_layout_01.png", cap:"Camera blocking" }
+          { type:"img", src:"", ratio:"16/9", hint:"img/CF_animatic.png", cap:"Animatic — all shots" }
         ],
         mediaLayout: "stack"
       },
@@ -466,28 +456,25 @@ blocks: [
       },
       {
         num: "03.1", heading: "Song teaser", sub: true, flip: true,
-        text: [ "A short teaser built from the 3D material to announce the song." ],
-        // 4. Teaser de Instagram. Le he puesto ratio 16/9 para mantenerlo horizontal
-        media: [ { type:"instagram", id:"DT3Jjx8DJw0", ratio:"1/1", hint:"Instagram teaser" } ]
+        text: [ "With the teaser we wanted to capture the style of the song and the video, as well as its theme, in a short and impactful piece.", "To do that, we reduced the whole plot to a single static shot that quickly shows the progression of events and gives a preview of the end of the story, without revealing anything too clearly." ],
+        media: [ { type:"instagram", id:"DT3Jjx8DJw0", ratio:"1/1", maxw:"340px", hint:"Instagram teaser" } ]
       },
       {
         num: "03.2", heading: "Visualizer", sub: true,
-        text: [ "Visualizer for the song, part of the full EP video." ],
-        // 3. YouTube Full EP (Visualizer) con tu ID y empezando en el segundo 378
+        text: [ "The visualizer is another version of the same idea as the teaser, but longer. It is a loop in which the character, both mentally and in the video itself, waits alone with a pizza for two in a metro car on a journey that never ends. He checks his phone, startles when a notification arrives, grows desperate and starts to fall asleep, until he is back to waiting impatiently for something to arrive.", "The loop breaks along with the song towards the end: the phone steps out of its role and floats toward the camera, grows huge and chases the character, and several scenes appear that symbolize his state of mind and the chaos and anxiety consuming him. Everything explodes when the phone corners the character and shines until it floods and blinds the whole screen. Both disappear, leaving the metro car empty and the dinner cold." ],
         media: [ { type:"youtube", id:"vVetXDbVuMM", start:378, ratio:"16/9", cap:"Full EP — starts at 6:18", hint:"YouTube visualizer" } ]
       },
       {
         num: "03.3", heading: "TQDM sequences", sub: true, layout: "full",
         text: [ "Short sequences created for another music video, TQDM: first the clips on their own as loops, then the video." ],
         media: [
-          { type:"loop", src:"img/TQDM_01", ratio:"16/9", hint:"img/TQDM_01.mp4" },
-          { type:"loop", src:"img/TQDM_02", ratio:"16/9", hint:"img/TQDM_02.mp4" },
-          { type:"loop", src:"img/TQDM_03", ratio:"16/9", hint:"img/TQDM_03.mp4" },
-          { type:"loop", src:"img/TQDM_04", ratio:"16/9", hint:"img/TQDM_04.mp4" },
-          // 2. YouTube TQDM con tu ID
-          { type:"youtube", id:"2Dw61Qq8wHM", ratio:"16/9", hint:"YouTube TQDM", span:5 }
+          { type:"loop", src:"img/TQDM_01.mp4", ratio:"16/9", hint:"img/TQDM_01.mp4" },
+          { type:"loop", src:"img/TQDM_02.mp4", ratio:"16/9", hint:"img/TQDM_02.mp4" },
+          { type:"loop", src:"img/TQDM_03.mp4", ratio:"16/9", hint:"img/TQDM_03.mp4" },
+          { type:"loop", src:"img/TQDM_04.mp4", ratio:"16/9", hint:"img/TQDM_04.mp4" },
+          { type:"youtube", id:"2Dw61Qq8wHM", ratio:"16/9", hint:"YouTube TQDM", span:4, maxw:"560px", mt:"24px" }
         ],
-        mediaLayout: "grid", cols: 5
+        mediaLayout: "grid", cols: 4
       },
       {
         num: "04", heading: "Status", layout: "full",
@@ -508,32 +495,31 @@ blocks: [
     gc: "1 / 4", gr: "5 / 8",
     img: null,
     video: "img/LEEM_URSA_Reveal_thumbnail.mp4",
-    role: [["Role","3D Visuals & Motion Graphics"],["Tools","Blender · After Effects"],["Year","2024–2025"]],
+    role: [["Role","3D Visuals & Motion Graphics"],["Tools","Blender · After Effects"],["Year","2023–2024"]],
     heroImg: null,
-    sections: [
-  { 
-    num: "01", 
-    heading: "The Challenge", 
-    body: "Lead the visual production and promotional materials for the LEEM UPM Rocketry Team's participation in the European Rocketry Challenge (Euroc 24). The goal was to deliver a professional audiovisual package encompassing live-action video, 3D visualization, and motion graphics.", 
-    shots: [] 
-  },
-  { 
-    num: "02", 
-    heading: "Process", 
-    body: "Directed, scripted, filmed, and edited the team's main presentation video. Modeled the rocket in 3D to produce a cinematic reveal trailer, applying real-world camera techniques to the 3D viewport. Additionally, designed and animated 2D motion graphics in After Effects, including the team's official logo animation (currently in use) and a dedicated sponsor reveal piece for MSI.", 
-    shots: [
-      "URL_IMAGEN_DEL_RODAJE_O_VIDEO",
-      "URL_IMAGEN_DEL_COHETE_3D"
+    blocks: [
+      { num:"00", heading:"Overview", layout:"full",
+        text:["For two years I collaborated with the LEEM UPM Rocketry Team as part of their marketing team, working on a range of projects.","First, I directed, filmed, gathered older footage and edited the whole presentation video for EuRoC 24, which includes motion graphics. I also created motion graphics for the team's brand and for collaborations with other brands.","On top of that, I produced a reveal video of their rocket for social media and redesigned their website."] },
+      { num:"01", heading:"URSA rocket reveal", flip:true,
+        text:["Modeled the rocket in 3D to produce a cinematic reveal trailer, applying real-world camera techniques to the 3D viewport and managing the full 3D workflow from concept to final render."],
+        media:[ { type:"video", src:"img/LEEM_URSA_Reveal.mp4", ratio:"16/9", cap:"URSA reveal" } ] },
+      { num:"02", heading:"Motion graphics", layout:"full",
+        text:["Designed and animated 2D motion graphics in After Effects: a collaboration piece for sponsor MSI, the URSA rocket logo, and the team's official logo animation (currently in use), made to close their videos."],
+        media:[ { type:"loop", src:"img/LeemXmsi_v2.mp4", ratio:"16/9", cap:"MSI collaboration" }, { type:"loop", src:"img/LEEM_MotionGraph_UrsaLogo.mp4", ratio:"16/9", cap:"URSA logo" }, { type:"loop", src:"img/LEEM_MotionGraph_LOGO.mp4", ratio:"16/9", cap:"LEEM logo (video outro)" } ], mediaLayout:"grid", cols:3 },
+      { num:"02.1", heading:"Presentation video graphics", sub:true, layout:"full",
+        text:["Three simpler pieces made for the presentation video."],
+        media:[ { type:"loop", src:"img/LEEM_MotionGraph_Name.mp4", ratio:"16/9", cap:"What the acronym stands for" }, { type:"loop", src:"img/LEEM_MotionGraph_LeemMade.mp4", ratio:"16/9", cap:"Everything made by the team" }, { type:"loop", src:"img/LEEM_MotionGraph_Departments.mp4", ratio:"16/9", cap:"How the team is organized" } ], mediaLayout:"grid", cols:3 },
+      { num:"03", heading:"EuRoC presentation video", flip:true,
+        text:["Directed, filmed, gathered older footage and edited the team's main presentation video for EuRoC, published on the team's Instagram.","The goal was to tell the story of the team: its organization and current essence, the path that led to where they are now, and to present the rocket they brought to the competition.","Congratulations to the team on their win this year!"],
+        media:[ { type:"instagram", kind:"p", id:"C_3OqePMjfb", ratio:"4/5", maxw:"420px" } ] },
+      { num:"03.1", heading:"Behind the scenes", sub:true, layout:"full",
+        text:["Photos from the shoot."],
+        media:[ { type:"img", src:"", ratio:"4/3", hint:"img/LEEM_shoot_01.jpg", cap:"" }, { type:"img", src:"", ratio:"4/3", hint:"img/LEEM_shoot_02.jpg", cap:"" }, { type:"img", src:"", ratio:"4/3", hint:"img/LEEM_shoot_03.jpg", cap:"" } ], mediaLayout:"grid", cols:3 },
+      { num:"04", heading:"Team website", layout:"full",
+        text:["The team's website was poorly structured and outdated, so I updated it as part of the team's rebranding: to align it with the current aesthetic, make it work better, improve the UX, and make it a better showcase for the team's projects and work.","<a href='https://www.leemupm.com/' target='_blank' rel='noopener'>Visit leemupm.com →</a>"] },
+      { num:"05", heading:"Result", layout:"full",
+        text:["Over two years with the team, I delivered a cohesive audiovisual package: the EuRoC 24 presentation video, motion graphics for the team's brand and for collaborations with other brands, a rocket reveal for social media, and a redesigned website, all aligned with the team's updated image."] }
     ]
-  },
-  { 
-    num: "03", 
-    heading: "Result", 
-    body: "Delivered a cohesive and high-quality media package successfully utilized for the Euroc 24 competition, major sponsor announcements, and the team's ongoing social media presence.", 
-    shots: [], 
-    full: true 
-  }
-]
   },
 
   /*- - - - - - - - 
@@ -548,34 +534,23 @@ blocks: [
     gc: "4 / 7", gr: "1 / 5",
     img: null,
     video: "img/ViralReality_thumbnail.mp4",
-    role: [["Role","Gameplay Programmer and Design | 3D Generalist"],["Tools","Unreal Engine · Blender"],["Year","2024"]],
-    heroImg: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1600&auto=format&fit=crop",
-    
-      sections: [
-        {
-          num: "01",
-          heading: "The Challenge",
-          body: "Developed interactive VR educational simulations for Meta Quest headsets, including a procedural pharmacy dissection lab and 'Viral Reality', a molecular visualizer. The goal was to build highly tactile, intuitive spatial interactions while adhering to strict real-time performance budgets.",
-          shots: []
-        },
-        {
-          num: "02",
-          heading: "Technical Process",
-          body: "Programmed core logic in Unreal Engine using Blueprints. For the pharmacy lab, designed the core State Machine controlling the procedural flow and complex object collisions. For 'Viral Reality', I engineered a custom VR keyboard from scratch to query databases, and built a dynamic physics system with custom triggers that allowed users to smoothly assemble and disassemble molecular parts. Pre-processed 3D assets in Blender for mesh optimization and baked lighting in UE to guarantee stable framerates.",
-          shots: [
-            "URL_IMAGEN_1",
-            "URL_IMAGEN_2"
-          ]
-        },
-        {
-          num: "03",
-          heading: "Result",
-          body: "Created smooth, highly interactive standalone VR tools that validate complex user inputs (assembling parts, performing lab cuts), showcasing strong technical problem-solving in XR environments. <br><br> <a href='https://viralreality.org/' target='_blank' style='color: var(--accent); text-decoration: underline;'>Check out Viral Reality website →</a>",
-          shots: [],
-          full: true
-        }
-      ]
-
+    role: [["Role","Gameplay Programmer and Design | 3D Generalist"],["Tools","Unreal Engine · Blender"],["Year","2023–2024"]],
+    heroImg: null,
+    blocks: [
+      { num:"00", heading:"Overview",
+        text:["Developed interactive VR educational simulations for Meta Quest headsets, including a procedural pharmacy dissection lab and 'Viral Reality', a molecular visualizer. The goal was to build highly tactile, intuitive spatial interactions while adhering to strict real-time performance budgets."],
+        media:[ { type:"video", src:"img/ViralReality_thumbnail.mp4", ratio:"16/9", cap:"Viral Reality" } ] },
+      { num:"01", heading:"Pharmacy lab simulation", flip:true,
+        text:["A VR replica of a pharmacy lab practice with rats: the user opens the rat and cuts a section of the seminiferous tubule to see how it reacts to different chemicals.","Programmed the core logic in Unreal Engine using Blueprints, designing the State Machine that controls the procedural flow and the complex object collisions."],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/VR_lab.mp4", cap:"Pharmacy lab gameplay", span:2 }, { type:"img", src:"", ratio:"4/3", hint:"img/VR_lab_01.png", cap:"" }, { type:"img", src:"", ratio:"4/3", hint:"img/VR_lab_02.png", cap:"" } ], mediaLayout:"grid", cols:2 },
+      { num:"02", heading:"Viral Reality",
+        text:["A VR visualizer of virus and antigen molecules. I engineered a custom VR keyboard from scratch to query databases, so users can download any molecule they want from the web, and built a dynamic physics system with custom triggers that lets them smoothly assemble and disassemble molecular parts.","<a href='https://viralreality.org/' target='_blank' rel='noopener'>Check out the Viral Reality website →</a>"],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/VR_viral.mp4", cap:"Viral Reality demo", span:2 }, { type:"img", src:"", ratio:"4/3", hint:"img/VR_viral_01.png", cap:"" }, { type:"img", src:"", ratio:"4/3", hint:"img/VR_viral_02.png", cap:"" } ], mediaLayout:"grid", cols:2 },
+      { num:"03", heading:"Immunoterapp", layout:"full",
+        text:["The third project was the educational mobile game Immunoterapp, which has its own page: <a href='#/project/immunoterapp-mobile-game'>see the project →</a>"] },
+      { num:"04", heading:"What I learned", layout:"full",
+        text:["Working in VR is very different from working in traditional 3D: everything has to be experienced, not just seen. I learned to design interactions that feel natural in space, to make the result look good under strict real-time budgets, and to optimize assets and lighting to keep the framerate stable.","I also gained experience working in a team with other programmers and people from other disciplines, coordinating art, design and code towards a shared result."] }
+    ]
   },
 
   /*- - - - - - - - 
@@ -592,48 +567,51 @@ blocks: [
     video: "img/INMUN_thumbnail.mp4",
     role: [["Role","Lead Programmer"],["Tools","Unity · C#"],["Year","2023–2024"]],
     heroImg: null,
-      sections: [
-        {
-          num: "01",
-          heading: "The Challenge",
-          body: "Co-designed and developed an educational 2D mobile game aimed at teaching immunotherapy concepts. The challenge was to translate biological processes into engaging gameplay mechanics, including exploration, NPC dialogue, and a character progression system.",
-          shots: []
-        },
-        {
-          num: "02",
-          heading: "Technical Process",
-          body: "Developed the core architecture in Unity (C#) using strong Object-Oriented Programming (OOP) principles. Implemented Design Patterns such as Singleton for game managers and Observer for UI events, alongside heavy use of inheritance and polymorphism for modular NPCs. Programmed 2D collisions, virtual joystick movement, state-driven animations, and mini-cinematic sequences. Actively participated in weekly game design syncs and iteration testing.",
-          shots: [
-            "URL_IMAGEN_1",
-            "URL_IMAGEN_2"
-          ]
-        },
-        {
-          num: "03",
-          heading: "Result",
-          body: "Delivered a robust, scalable game featuring educational hubs, dynamic UI, and a fully playable gameplay loop. The project demonstrates a solid grasp of software architecture and gameplay programming.",
-          shots: [],
-          full: true
-        }
-      ]
+    blocks: [
+      { num:"00", heading:"Overview",
+        text:["The game started as a university project, but it was meant to be used in hospitals by children about to undergo cancer immunotherapy treatment, so everything was designed with that purpose in mind.","I co-designed and developed an educational 2D mobile game aimed at teaching immunotherapy concepts. The challenge was to translate biological processes into engaging gameplay mechanics, including exploration, NPC dialogue, and a character progression system."],
+        media:[ { type:"video", src:"img/INMUN_thumbnail.mp4", ratio:"16/9", cap:"Gameplay" } ] },
+      { num:"01", heading:"Onboarding flow", flip:true,
+        text:["The game opens with a set of screens to choose an avatar and a name, then moves through informative screens about immunotherapy until the last one: the game itself.","I worked with my teammates, who designed the interface, and together we all designed the flow of the whole experience and of the game."],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/INMUN_flow.mp4", cap:"Screen flow" } ] },
+      { num:"02", heading:"Gameplay",
+        text:["The player explores the body and talks to the cells that help them: T lymphocyte, B lymphocyte, macrophage and natural killer.","They also inspect the cancer and collect the three antigens it launches, which upgrade the player's dendritic cell."],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/INMUN_cells.mp4", cap:"Talking to the cells" },
+                { type:"video", src:"", ratio:"16/9", hint:"img/INMUN_antigens.mp4", cap:"Collecting antigens and upgrading the dendritic cell" } ],
+        mediaLayout:"stack" },
+      { num:"03", heading:"Technical process", layout:"full",
+        text:["Developed the core architecture in Unity (C#) using strong Object-Oriented Programming (OOP) principles. Implemented Design Patterns such as Singleton for game managers and Observer for UI events, alongside heavy use of inheritance and polymorphism for modular NPCs. Programmed 2D collisions, virtual joystick movement, state-driven animations, and mini-cinematic sequences. Actively participated in weekly game design syncs and iteration testing."] },
+      { num:"04", heading:"Result", layout:"full",
+        text:["Delivered a robust, scalable game featuring educational hubs, dynamic UI, and a fully playable gameplay loop. The project demonstrates a solid grasp of software architecture and gameplay programming."] }
+    ]
   },
   {
-    slug: "standalone-3d-art",
+    slug: "3d-art",
     index: "P05",
-    cat: "3D Art · Standalone pieces",
-    title: "Standalone animations & art",
+    cat: "3D Art · 3D Animation",
+    title: "3D Animations & Art",
     caption: "Independent animation and 3D art pieces outside of formal projects.",
-    gc: "1 / 7", gr: "8 / 11",
+    gc: "1 / 7", gr: "8 / 12",
     img: null,
     video: "img/anims_thumbnail.mp4",
     role: [["Role","3D Artist"],["Tools","Blender"],["Year","Ongoing"]],
     heroImg: null,
-    sections: [
-      { num:"01", heading:"About these pieces", body:"Space for free experimentation: character studies, animation loops, shading and style tests.", shots:[] },
-      { num:"02", heading:"Selection", body:"Add each standalone piece here with a short note on the technique or the reason you made it.", shots: [
-        "https://images.unsplash.com/photo-1618172193763-c511deb635ca?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=800&auto=format&fit=crop"
-      ]}
+    blocks: [
+      { 
+        num: "01", heading: "Animations & Models", layout: "full",
+        text: ["A collection of animations and 3D models made throughout my degree. I continue to develop my skills in these areas through ongoing personal studies."],
+        media: [
+          /* El lipsync ahora es "video" en lugar de "loop", lo que le añade controles y audio */
+          { type:"video", src:"img/ANIM_Facial.mp4", ratio:"16/9", cap:"Facial animation & lipsync study" },
+          { type:"loop", src:"img/ANIM_attack.mp4", ratio:"16/9", cap:"Attack animation (complex body mechanics)" },
+          { type:"loop", src:"img/ANIM_IdleFight.mp4", ratio:"16/9", cap:"Fighting game idle" },
+          { type:"loop", src:"img/ANIM_RunCycle.mp4", ratio:"16/9", cap:"Run cycle study" },
+          { type:"img", src:"", ratio:"4/3", hint:"img/ART_01.png", cap:"Selected 3D Model 01" },
+          { type:"img", src:"", ratio:"4/3", hint:"img/ART_02.png", cap:"Selected 3D Model 02" },
+          { type:"img", src:"", ratio:"4/3", hint:"img/ART_03.png", cap:"Selected 3D Model 03" }
+        ],
+        mediaLayout: "grid", cols: 2
+      }
     ]
   }
 ];
@@ -643,8 +621,6 @@ const ABOUT_TEXT = `3D Generalist & 3D/VR Developer. Dual-degree student in 3D E
 /* ---------------- render helpers ---------------- */
 function tileMedia(p){
   if(p.video){
-    // preload="auto" so the browser shows the first frame as a
-    // thumbnail even without hovering over it.
     return `<video class="media" src="${p.video}" ${p.img ? `poster="${p.img}"` : ""} muted loop autoplay playsinline preload="auto"></video>`;
   }
   return `<div class="media" style="background-image:url('${p.img}')"></div>`;
@@ -670,22 +646,26 @@ function renderHome(){
 
   return `
     <div class="intro">
-      <span class="eyebrow mono">// portfolio — 3d generalist</span>
+      <span class="eyebrow mono">// 3D Generalist | Game Programmer</span>
       <p>${ABOUT_TEXT}</p>
     </div>
     <div class="grid">${tiles}</div>
   `;
 }
 
+const LINKS = `<a href="mailto:lucia.bgm0@gmail.com">Email</a><a href="https://www.linkedin.com/in/luc%C3%ADa-bermejo-2947a9251" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.instagram.com/l0.osi/" target="_blank" rel="noopener">Instagram</a><a href="Lucia_Bermejo_CV_3DArtist.pdf" target="_blank">CV (PDF)</a>`;
+
 function renderAbout(){
   return `
-    <div class="intro" style="padding-top:64px; max-width:700px;">
+    <div class="intro" style="padding-top:64px; max-width:700px; margin:0 auto;">
       <span class="eyebrow mono">// about</span>
       <p>${ABOUT_TEXT}</p>
-      <p style="margin-top:24px; font-size:15px; color:var(--text-dim); line-height:1.7;">
-        Add more context here: your studies, the software you're proficient in,
-        and how to get in touch (email, LinkedIn, ArtStation, etc.).
-      </p>
+      <div class="about-more">
+        <p>I'm now in the final year of my degree, and I've spent two years at UPIA (CEU San Pablo University), where I worked on <a href="#/project/educational-vr-simulations">VR simulations</a> and the mobile game <a href="#/project/immunoterapp-mobile-game">Immunoterapp</a>. Alongside that, I take on personal and collaborative projects like <a href="#/project/cena-fria-music-video">Cena Fría</a> and the visuals for the <a href="#/project/leem-rocketry-visuals">LEEM UPM Rocketry Team</a>.</p>
+        <p>Right now I'm working on my university final-year game as co-director and lead programmer.</p>
+        <p class="mono tools"><b>3D &amp; art</b> Unreal Engine · Unity · 3ds Max · Maya · Blender · ZBrush · Substance<br><b>Code</b> C++ · C# · Python · Git &amp; GitHub</p>
+        <p class="mono links">${LINKS}</p>
+      </div>
     </div>
   `;
 }
@@ -696,25 +676,26 @@ function mediaEl(m){
   let inner = null;
   if(m.type==="img" && m.src) inner = `<img src="${m.src}" alt="${m.cap||""}" loading="lazy">`;
   if(m.type==="loop" && m.src) inner = `<video src="${m.src}" muted loop autoplay playsinline preload="auto"></video>`;
-  if(m.type==="video" && m.src) inner = `<video src="${m.src}" controls muted playsinline preload="metadata"></video>`;
+  /* Aquí le quité la propiedad 'muted' a los videos normales para que suenen */
+  if(m.type==="video" && m.src) inner = `<video src="${m.src}" controls playsinline preload="metadata"></video>`;
   if(m.type==="youtube" && m.id) inner = `<iframe src="https://www.youtube-nocookie.com/embed/${m.id}${m.start ? `?start=${m.start}` : ""}" title="${m.cap||"Video"}" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   if(m.type==="spotify" && m.id) inner = `<iframe src="https://open.spotify.com/embed/track/${m.id}?utm_source=generator&theme=0" title="Spotify" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
-  if(m.type==="instagram" && m.id) inner = `<iframe src="https://www.instagram.com/reel/${m.id}/embed" title="Instagram" loading="lazy" scrolling="no" allowfullscreen></iframe>`;
+  if(m.type==="instagram" && m.id) inner = `<iframe src="https://www.instagram.com/${m.kind||"reel"}/${m.id}/embed" title="Instagram" loading="lazy" scrolling="no" allowfullscreen></iframe>`;
   if(!inner) inner = `<div class="ph mono">${m.hint || m.type}</div>`;
   const fs = m.type==="spotify" ? "height:152px" : `aspect-ratio:${r}`;
   const span = m.span ? `grid-column:span ${m.span};` : "";
-  return `<figure class="mi" style="flex:${(w/h).toFixed(3)} 1 0; ${span}"><div class="frame" style="${fs}">${inner}</div>${m.cap ? `<figcaption class="mono">${m.cap}</figcaption>` : ""}</figure>`;
+  return `<figure class="mi" style="flex:${(w/h).toFixed(3)} 1 0; ${span}${m.maxw ? `max-width:${m.maxw};` : ""}${m.mt ? `margin-top:${m.mt};` : ""}"><div class="frame" style="${fs}">${inner}</div>${m.cap ? `<figcaption class="mono">${m.cap}</figcaption>` : ""}</figure>`;
 }
 
 function mset(items, layout="stack", cols=2){
-  return `<div class="mset ${layout}" style="--cols:${cols}">${items.map(mediaEl).join("")}</div>`;
+  return `<div class="mset ${layout === "grid" ? "mgrid" : layout}" style="--cols:${cols}">${items.map(mediaEl).join("")}</div>`;
 }
 
 function renderBlock(b){
   const paras = (b.text||[]).map(t => `<p class="body">${t}</p>`).join("");
   const after = b.after ? mset(b.after) : "";
   const media = b.media ? `<div class="blk-media">${mset(b.media, b.mediaLayout, b.cols)}</div>` : "";
-  const cls = [b.layout || "split", b.flip ? "flip" : "", b.sub ? "sub" : "", !b.media && !b.layout ? "full" : ""].join(" ");
+  const cls = [b.layout || "split", b.flip ? "flip" : "", b.sub ? "sub" : "", !b.media && !b.layout ? "full" : "", !b.media ? "nomedia" : ""].join(" ");
   return `<section class="blk ${cls}">
     <div class="blk-text"><span class="num mono">${b.num}</span><h2>${b.heading}</h2>${paras}${after}</div>${media}
   </section>`;
@@ -760,15 +741,6 @@ function renderProject(slug){
 }
 
 /* ---------------- router ---------------- */
-/*function attachHoverVideos(container){
-  container.querySelectorAll(".tile").forEach(tile => {
-    const v = tile.querySelector("video");
-    if(!v) return;
-    tile.addEventListener("mouseenter", () => { v.play().catch(()=>{}); });
-    tile.addEventListener("mouseleave", () => { v.pause(); v.currentTime = 0; });
-  });
-}*/
-
 function route(){
   const hash = location.hash || "#/";
   const app = document.getElementById("app");
@@ -776,17 +748,17 @@ function route(){
   document.getElementById("nav-about").classList.toggle("active", hash === "#/about");
 
   if(hash === "#/about"){
-    app.innerHTML = renderAbout();
+    app.innerHTML = `<div class="wrap">${renderAbout()}</div>`;
   } else if(hash.startsWith("#/project/")){
     const slug = hash.replace("#/project/","");
     app.innerHTML = renderProject(slug);
   } else {
     app.innerHTML = `<div class="wrap">${renderHome()}</div>`;
-    //attachHoverVideos(app);
   }
   window.scrollTo(0,0);
 }
 
+document.getElementById("foot-links").innerHTML = LINKS;
 window.addEventListener("hashchange", route);
 window.addEventListener("DOMContentLoaded", route);
 </script>
