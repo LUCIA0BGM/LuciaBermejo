@@ -400,7 +400,7 @@ const PROJECTS = [
   /*- - - - - - - - 
       CENA FRIA
   - - - - - - - - */
-  {
+{
     slug: "cena-fria-music-video",
     index: "P01",
     cat: "Music video · 3D visuals",
@@ -426,7 +426,19 @@ const PROJECTS = [
         mediaLayout: "row"
       },
       {
-        num: "01", heading: "Look Dev & 3D Art", flip: true,
+        num: "01", heading: "Visuals & Spin-offs", layout: "full",
+        text: [ "Alongside the main video, we created several pieces to expand the universe of the song: a teaser to set the mood, short looping sequences for another music video (TQDM), and a full visualizer for the EP." ],
+        media: [
+          { type:"video", src:"img/CF_Teaser.mp4", poster:"img/CF_Teaser_thumbnail3.png", ratio:"16/9", cap:"Song teaser" },
+          { type:"youtube", id:"vVetXDbVuMM", start:378, ratio:"16/9", cap:"Full EP — Visualizer", hint:"YouTube visualizer" },
+          { type:"youtube", id:"2Dw61Qq8wHM", ratio:"16/9", cap:"Crossover in his other music video 'TQDM'. "},
+          { type:"loop", src:"img/CF_SpotifyCanvas.mp4", ratio:"9/16", cap:"Spotify Canvas", maxw:"220px" }
+          
+        ],
+        mediaLayout: "grid", cols: 2
+      },
+      {
+        num: "02", heading: "The Process: Look Dev & 3D Art", flip: true,
         text: [
           "Defined the visual style together with Alec, then modeled and textured the character, environment and props.",
           "I ran many lighting and rendering tests to achieve the exact look we wanted, locking it in with the official cover art."
@@ -440,7 +452,7 @@ const PROJECTS = [
         mediaLayout: "grid", cols: 2
       },
       {
-        num: "02", heading: "Layout & Animatic",
+        num: "03", heading: "Layout & Animatic",
         text: [
           "Once I had a rough script paced by the song, I blocked out the cameras and character layout to create a 3D animatic.",
           "It gave us a clear overview of the video while keeping the flexibility to tweak or change shots."
@@ -449,32 +461,6 @@ const PROJECTS = [
           { type:"img", src:"", ratio:"16/9", hint:"img/CF_animatic.png", cap:"Animatic — all shots" }
         ],
         mediaLayout: "stack"
-      },
-      {
-        num: "03", heading: "Spin-offs & Extra Content", layout: "full",
-        text: [ "In parallel with the main video, several related side-projects for the song and album emerged: a song teaser, a looping Spotify Canvas, short sequences for another music video (TQDM), and a visualizer." ]
-      },
-      {
-        num: "03.1", heading: "Song teaser", sub: true, flip: true,
-        text: [ "With the teaser we wanted to capture the style of the song and the video, as well as its theme, in a short and impactful piece.", "To do that, we reduced the whole plot to a single static shot that quickly shows the progression of events and gives a preview of the end of the story, without revealing anything too clearly." ],
-        media: [ { type:"instagram", id:"DT3Jjx8DJw0", ratio:"1/1", maxw:"340px", hint:"Instagram teaser" } ]
-      },
-      {
-        num: "03.2", heading: "Visualizer", sub: true,
-        text: [ "The visualizer is another version of the same idea as the teaser, but longer. It is a loop in which the character, both mentally and in the video itself, waits alone with a pizza for two in a metro car on a journey that never ends. He checks his phone, startles when a notification arrives, grows desperate and starts to fall asleep, until he is back to waiting impatiently for something to arrive.", "The loop breaks along with the song towards the end: the phone steps out of its role and floats toward the camera, grows huge and chases the character, and several scenes appear that symbolize his state of mind and the chaos and anxiety consuming him. Everything explodes when the phone corners the character and shines until it floods and blinds the whole screen. Both disappear, leaving the metro car empty and the dinner cold." ],
-        media: [ { type:"youtube", id:"vVetXDbVuMM", start:378, ratio:"16/9", cap:"Full EP — starts at 6:18", hint:"YouTube visualizer" } ]
-      },
-      {
-        num: "03.3", heading: "TQDM sequences", sub: true, layout: "full",
-        text: [ "Short sequences created for another music video, TQDM: first the clips on their own as loops, then the video." ],
-        media: [
-          { type:"loop", src:"img/TQDM_01.mp4", ratio:"16/9", hint:"img/TQDM_01.mp4" },
-          { type:"loop", src:"img/TQDM_02.mp4", ratio:"16/9", hint:"img/TQDM_02.mp4" },
-          { type:"loop", src:"img/TQDM_03.mp4", ratio:"16/9", hint:"img/TQDM_03.mp4" },
-          { type:"loop", src:"img/TQDM_04.mp4", ratio:"16/9", hint:"img/TQDM_04.mp4" },
-          { type:"youtube", id:"2Dw61Qq8wHM", ratio:"16/9", hint:"YouTube TQDM", span:4, maxw:"560px", mt:"24px" }
-        ],
-        mediaLayout: "grid", cols: 4
       },
       {
         num: "04", heading: "Status", layout: "full",
@@ -617,7 +603,7 @@ const PROJECTS = [
   }
 ];
 
-const ABOUT_TEXT = `3D Generalist & 3D/VR Developer. Student in 3D Engineering and Digital Art, specializing in both technical problem-solving and developing and visual creation for animation, games and interactive media. `;
+const ABOUT_TEXT = `I'm a student in 3D Engineering and Digital Art, specializing in both technical problem-solving and developing and visual creation for animation, games and interactive media. Here you can check out some of my favorite projects and works, hope you like it :)`;
 
 /* ---------------- render helpers ---------------- */
 function tileMedia(p){
@@ -678,7 +664,7 @@ function mediaEl(m){
   if(m.type==="img" && m.src) inner = `<img src="${m.src}" alt="${m.cap||""}" loading="lazy">`;
   if(m.type==="loop" && m.src) inner = `<video src="${m.src}" muted loop autoplay playsinline preload="auto"></video>`;
   /* Aquí le quité la propiedad 'muted' a los videos normales para que suenen */
-  if(m.type==="video" && m.src) inner = `<video src="${m.src}" controls playsinline preload="metadata"></video>`;
+  if(m.type==="video" && m.src) inner = `<video src="${m.src}" ${m.poster ? `poster="${m.poster}"` : ""} controls playsinline preload="metadata"></video>`;
   if(m.type==="youtube" && m.id) inner = `<iframe src="https://www.youtube-nocookie.com/embed/${m.id}${m.start ? `?start=${m.start}` : ""}" title="${m.cap||"Video"}" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   if(m.type==="spotify" && m.id) inner = `<iframe src="https://open.spotify.com/embed/track/${m.id}?utm_source=generator&theme=0" title="Spotify" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
   if(m.type==="instagram" && m.id) inner = `<iframe src="https://www.instagram.com/${m.kind||"reel"}/${m.id}/embed" title="Instagram" loading="lazy" scrolling="no" allowfullscreen></iframe>`;
