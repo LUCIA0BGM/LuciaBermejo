@@ -141,11 +141,11 @@
     background-size: cover;
     background-position: center;
     object-fit: cover;
-    filter: grayscale(0.85) contrast(1.05) brightness(0.75);
+    filter: grayscale(0.85) brightness(0.75);
     transition: filter .5s ease, transform .6s ease;
   }
   .tile:hover .media{
-    filter: grayscale(0) contrast(1) brightness(0.9);
+    filter: grayscale(0) brightness(0.9);
     transform: scale(1.035);
   }
 
@@ -391,6 +391,30 @@
   .links a:hover, .foot-links a:hover{ color:var(--accent); }
   .foot{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
   .foot-links a{ margin:0 0 0 20px; }
+  /* ---------- etiquetas, chips y filtros ---------- */
+  .tags{ display:flex; flex-wrap:wrap; gap:4px 14px; margin-bottom:6px; }
+  .tag{ display:inline-flex; align-items:center; gap:6px; font-size:10px; text-transform:uppercase; color:var(--text); }
+  .tag i, .f-btn i{ width:7px; height:7px; border-radius:50%; background:var(--c); flex:none; }
+  .chips{ display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+  .chip{ font-size:10px; padding:2px 7px; border:1px solid var(--line); border-radius:var(--radius); color:var(--text-dim); background:rgba(10,10,13,.55); }
+  .detail-hero .tags{ margin-bottom:10px; }
+  .detail-hero .tag{ font-size:12px; }
+  .filters{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 18px; font-size:12px; }
+  .f-label{ color:var(--text-dim); margin-right:6px; }
+  .f-btn{ display:inline-flex; align-items:center; gap:8px; padding:7px 12px; background:transparent; color:var(--text-dim);
+          border:1px solid var(--line); border-radius:var(--radius); cursor:pointer; font:inherit; transition:color .2s, border-color .2s; }
+  .f-btn em{ font-style:normal; opacity:.55; }
+  .f-btn:hover{ color:var(--text); border-color:var(--text-dim); }
+  .f-btn.active{ color:var(--text); border-color:var(--c, var(--text)); }
+  .tile{ transition: opacity .3s ease; }
+  .tile.dim{ opacity:.2; }
+  .tile.dim:hover{ opacity:.6; }
+  .tile .media.tile-empty, .tile:hover .media.tile-empty{
+    filter:none; background-color:#0f1116;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .tile-empty::after{ content:"// coming soon"; position:absolute; top:12px; right:12px; font:11px 'JetBrains Mono', monospace; color:var(--text-dim); }
 </style>
 </head>
 <body>
@@ -423,7 +447,7 @@ const PROJECTS = [
 {
     slug: "cena-fria-music-video",
     index: "P01",
-    cat: "Music video · 3D visuals",
+    tags: ["art", "look"],
     title: "Cena Fría — Alec Grace",
     caption: "Music video, cover art and 3D visuals for Alec Grace's single.",
     gc: "1 / 4", gr: "1 / 5",
@@ -495,7 +519,7 @@ const PROJECTS = [
   {
     slug: "leem-rocketry-visuals",
     index: "P02",
-    cat: "Motion graphics · 3D visuals",
+    tags: ["look", "art"],
     title: "LEEM UPM Rocketry Team",
     caption: "3D visuals and motion graphics for the UPM rocketry team.",
     gc: "1 / 4", gr: "5 / 8",
@@ -534,7 +558,7 @@ const PROJECTS = [
   {
     slug: "educational-vr-simulations",
     index: "P03",
-    cat: "UE5 · VR & Gameplay Programmer · 3D Generalist",
+    tags: ["tech"],
     title: "VR and 3D educational simulations",
     caption: "VR environments and simulations for educational purposes.",
     gc: "4 / 7", gr: "1 / 5",
@@ -565,7 +589,7 @@ const PROJECTS = [
   {
     slug: "immunoterapp-mobile-game",
     index: "P04",
-    cat: "Unity · Game Development · Lead Programmer",
+    tags: ["tech"],
     title: "Videogame - Immunoterapp",
     caption: "Educational mobile game about immunotherapy, as lead programmer.",
     gc: "4 / 7", gr: "5 / 8",
@@ -595,10 +619,10 @@ const PROJECTS = [
   {
     slug: "3d-art",
     index: "P05",
-    cat: "3D Art · 3D Animation",
+    tags: ["art"],
     title: "3D Animations & Art",
     caption: "Independent animation and 3D art pieces outside of formal projects.",
-    gc: "1 / 7", gr: "8 / 12",
+    gc: "1 / 5", gr: "8 / 12",
     img: null,
     video: "img/anims_thumbnail.mp4",
     role: [["Role","3D Artist"],["Tools","Blender · Maya · ZBrush · Substance Painter"],["Year","Ongoing"]],
@@ -628,22 +652,92 @@ const PROJECTS = [
         mediaLayout: "grid", cols: 6
       }
     ]
+  },
+  {
+    slug: "tech-experiments",
+    index: "P06",
+    tags: ["tech"],
+    title: "Tech experiments & tools",
+    caption: "Small Unreal and Unity exercises and a Blender plugin. Coming soon.",
+    gc: "5 / 7", gr: "8 / 12",
+    img: null,
+    video: null,
+    role: [["Role","Programming"],["Tools","Unreal Engine · Unity · Blender"],["Year","Ongoing"]],
+    heroImg: null,
+    blocks: [
+      { num:"00", heading:"Overview", layout:"full",
+        text:["This page is a work in progress. It will collect small exercises I've made in Unreal Engine and Unity, and a plugin for Blender.","They are simpler than the projects above, and I'll add each one with a short explanation of what it does and how I built it. Coming soon."] },
+      { num:"01", heading:"Unreal Engine & Unity exercises", flip:true,
+        text:["Coming soon: small exercises, each with a short demo."],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_exercise_01.mp4" } ] },
+      { num:"02", heading:"Blender plugin",
+        text:["Coming soon: the plugin and a short demo of what it does."],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_plugin.mp4" } ] }
+    ]
   }
 ];
 
 const ABOUT_TEXT = `I'm a student in 3D Engineering and Digital Art, specializing in both technical problem-solving and developing and visual creation for animation, games and interactive media. Here you can check out some of my favorite projects and works, hope you like it :)`;
 
 /* ---------------- render helpers ---------------- */
+/* Categorías: edita aquí los nombres y colores (los proyectos usan las claves art / look / tech) */
+const CATEGORIES = {
+  art:  { label: "3D Art & Animation", color: "var(--accent)" },
+  look: { label: "Look Dev",           color: "#a78bfa" },
+  tech: { label: "Tech & Game Dev",    color: "var(--wire)" }
+};
+const tagsHTML = p => p.tags.map(k => `<span class="tag" style="--c:${CATEGORIES[k].color}"><i></i>${CATEGORIES[k].label}</span>`).join("");
+const toolsOf = p => (p.role.find(r => r[0] === "Tools") || ["",""])[1].split(" · ").filter(Boolean);
+const chipsHTML = p => toolsOf(p).slice(0,4).map(t => `<span class="chip">${t}</span>`).join("");
+
+function filtersHTML(){
+  const count = k => PROJECTS.filter(p => p.tags.includes(k)).length;
+  return `<div class="filters mono"><span class="f-label">Filter by</span>
+    <button class="f-btn active" data-f="all">All <em>${PROJECTS.length}</em></button>
+    ${Object.entries(CATEGORIES).map(([k,c]) => `<button class="f-btn" data-f="${k}" style="--c:${c.color}"><i></i>${c.label} <em>${count(k)}</em></button>`).join("")}
+  </div>`;
+}
+
+let curFilter = "all";
+function applyFilter(root, f){
+  curFilter = f;
+  root.querySelectorAll(".f-btn").forEach(b => b.classList.toggle("active", b.dataset.f === f));
+  root.querySelectorAll(".tile").forEach(t => t.classList.toggle("dim", f !== "all" && !t.dataset.tags.split(" ").includes(f)));
+}
+function initFilters(root){
+  root.querySelectorAll(".f-btn").forEach(b => b.onclick = () => applyFilter(root, (b.dataset.f === curFilter && b.dataset.f !== "all") ? "all" : b.dataset.f));
+  applyFilter(root, curFilter);
+}
+
+/* Vídeos en bucle: se cargan al acercarse a la pantalla y se pausan al salir de ella */
+let vidObs = null;
+function manageVideos(root){
+  if(vidObs) vidObs.disconnect();
+  const vids = root.querySelectorAll("video[data-src]");
+  if(!vids.length) return;
+  vidObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const v = e.target;
+      if(e.isIntersecting){
+        if(!v.getAttribute("src")) v.src = v.dataset.src;
+        v.play().catch(() => {});
+      } else { v.pause(); }
+    });
+  }, { rootMargin: "200px 0px", threshold: 0.01 });
+  vids.forEach(v => vidObs.observe(v));
+}
+
 function tileMedia(p){
   if(p.video){
-    return `<video class="media" src="${p.video}" ${p.img ? `poster="${p.img}"` : ""} muted loop autoplay playsinline preload="auto"></video>`;
+    return `<video class="media" data-src="${p.video}" ${p.img ? `poster="${p.img}"` : ""} muted loop playsinline preload="metadata"></video>`;
   }
-  return `<div class="media" style="background-image:url('${p.img}')"></div>`;
+  if(p.img) return `<div class="media" style="background-image:url('${p.img}')"></div>`;
+  return `<div class="media tile-empty"></div>`;
 }
 
 function renderHome(){
   const tiles = PROJECTS.map(p => `
-    <a class="tile" style="--gc:${p.gc}; --gr:${p.gr};" href="#/project/${p.slug}">
+    <a class="tile" data-tags="${p.tags.join(" ")}" style="--gc:${p.gc}; --gr:${p.gr};" href="#/project/${p.slug}">
       ${tileMedia(p)}
       <div class="scrim"></div>
       <span class="hud-corner tl"></span>
@@ -652,8 +746,9 @@ function renderHome(){
       <span class="hud-corner br"></span>
       <span class="index mono">${p.index}</span>
       <div class="info">
-        <span class="cat mono">${p.cat}</span>
+        <div class="tags mono">${tagsHTML(p)}</div>
         <h3 class="title">${p.title}</h3>
+        <div class="chips mono">${chipsHTML(p)}</div>
         <p class="cap">${p.caption}</p>
       </div>
     </a>
@@ -664,6 +759,7 @@ function renderHome(){
       <span class="eyebrow mono">// 3D Generalist | Game Programmer</span>
       <p>${ABOUT_TEXT}</p>
     </div>
+    ${filtersHTML()}
     <div class="grid">${tiles}</div>
   `;
 }
@@ -676,8 +772,8 @@ function renderAbout(){
       <span class="eyebrow mono">// about</span>
       <p>${ABOUT_TEXT}</p>
       <div class="about-more">
-        <p>I'm now in the final year of my degree, and I've spent two years at UPIA (CEU San Pablo University), where I worked on <a href="#/project/educational-vr-simulations">VR simulations</a> and the mobile game <a href="#/project/immunoterapp-mobile-game">Immunoterapp</a>. Alongside that, I take on personal and collaborative projects like <a href="#/project/cena-fria-music-video">Cena Fría</a> and the visuals for the <a href="#/project/leem-rocketry-visuals">LEEM UPM Rocketry Team</a>.</p>
-        <p>Right now I'm working on my university final-year game as co-director and lead programmer.</p>
+        <p>I'm now in the final year of my degree, and I've spent two years at UPIA (Audivisual Production & Innovation Unit) in CEU San Pablo University, where I worked on <a href="#/project/educational-vr-simulations">VR simulations</a> and the mobile game <a href="#/project/immunoterapp-mobile-game">Immunoterapp</a>. Alongside that, I enjoy taking on personal and collaborative projects like <a href="#/project/cena-fria-music-video">Cena Fría</a> and the visuals for the <a href="#/project/leem-rocketry-visuals">LEEM UPM Rocketry Team</a>.</p>
+        <p>Right now I'm working on my university final-year game as co-director and lead programmer, while searching for internship opportunities in the Animation & Game Dev fields.</p>
         <p class="mono tools"><b>3D &amp; art</b> Unreal Engine · Unity · 3ds Max · Maya · Blender · ZBrush · Substance<br><b>Code</b> C++ · C# · Python · Git &amp; GitHub</p>
         <p class="mono links">${LINKS}</p>
       </div>
@@ -691,7 +787,7 @@ function mediaEl(m){
   let inner = null;
   if(m.type==="img" && m.src) inner = `<img src="${m.src}" alt="${m.cap||""}" loading="lazy">`;
   if(m.type==="gallery" && m.images) inner = `<div class="car" data-interval="${m.interval||2500}">${m.images.map((src,k) => `<img class="car-slide" src="${src}" alt="${m.cap||""}" ${k ? 'loading="lazy"' : ""}>`).join("")}<button class="car-btn prev" aria-label="Previous image">‹</button><button class="car-btn next" aria-label="Next image">›</button><div class="car-dots">${m.images.map((_,k) => `<button aria-label="Image ${k+1}"></button>`).join("")}</div></div>`;
-  if(m.type==="loop" && m.src) inner = `<video src="${m.src}" muted loop autoplay playsinline preload="auto"></video>`;
+  if(m.type==="loop" && m.src) inner = `<video data-src="${m.src}" muted loop playsinline preload="metadata"></video>`;
   /* Aquí le quité la propiedad 'muted' a los videos normales para que suenen */
   if(m.type==="video" && m.src) inner = `<video src="${m.src}" ${m.poster ? `poster="${m.poster}"` : ""} controls playsinline preload="metadata"></video>`;
   if(m.type==="youtube" && m.id) inner = `<iframe src="https://www.youtube-nocookie.com/embed/${m.id}${m.start ? `?start=${m.start}` : ""}" title="${m.cap||"Video"}" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
@@ -739,7 +835,7 @@ function renderProject(slug){
     <div class="detail-hero">
       <div class="wrap">
         <a class="back mono" href="#/">← back</a>
-        <span class="cat mono">${p.cat}</span>
+        <div class="tags mono">${tagsHTML(p)}</div>
         <h1>${p.title}</h1>
         <div class="role mono">${roleRow}</div>
       </div>
@@ -805,7 +901,9 @@ function route(){
     initCarousels(app);
   } else {
     app.innerHTML = `<div class="wrap">${renderHome()}</div>`;
+    initFilters(app);
   }
+  manageVideos(app);
   window.scrollTo(0,0);
 }
 
