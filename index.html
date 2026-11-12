@@ -657,16 +657,16 @@ const PROJECTS = [
     slug: "tech-projects",
     index: "P06",
     tags: ["tech"],
-    title: "Tech projects & tools",
-    caption: "Small Unreal and Unity exercises and a Blender plugin. Coming soon.",
+    title: "Tech projects, tools & shaders",
+    caption: "Small Unreal and Unity exercises, a Blender plugin, and custom shaders. Coming soon.",
     gc: "5 / 7", gr: "8 / 12",
     img: null,
     video: null,
-    role: [["Role","Programming"],["Tools","Unreal Engine · Unity · Blender"],["Year","Ongoing"]],
+    role: [["Role","Programming & Tech Art"],["Tools","Unreal Engine · Unity · Blender · HLSL"],["Year","Ongoing"]],
     heroImg: null,
     blocks: [
       { num:"00", heading:"Overview", layout:"full",
-        text:["This page is a work in progress. It will collect small exercises I've made in Unreal Engine and Unity, and a plugin for Blender.","They are simpler than the projects above."] },
+        text:["This page is a work in progress. It will collect small exercises I've made in Unreal Engine and Unity, a plugin for Blender, and custom shaders.","They are simpler than the projects above."] },
       
       { num:"01", heading:"Blender toolkit add-on", flip:true,
         text:[
@@ -686,6 +686,15 @@ const PROJECTS = [
           "Once the base logic was implemented, I conducted playtesting sessions to tweak, balance, and improve the overall feel of each mechanic."
         ],
         media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_exercise_01.mp4" } ] 
+      },
+
+      { num:"03", heading:"Custom Shaders", flip:true,
+        text:[
+          "A collection of custom materials and shaders built for both Unreal Engine and Unity.",
+          "For Unreal Engine, I created dynamic environment materials, such as a procedural shader for <b>snow accumulation and moss blending on rocks</b> that automatically calculates the world's up-vector.",
+          "For Unity, I've worked on stylized surface effects, utilizing both Shader Graph and raw <b>HLSL</b>."
+        ],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_shaders.mp4" } ] 
       }
     ]
   }
@@ -790,7 +799,7 @@ function renderAbout(){
         <p>Over the last few years, I've spent my time working at UPIA (Audiovisual Production & Innovation Unit) in CEU San Pablo University, where I developed <a href="#/project/educational-vr-simulations" style="color: #c4ae5f;">VR simulations</a> and the mobile game <a href="#/project/immunoterapp-mobile-game" style="color: #c4ae5f;">Immunoterapp</a>. Alongside my studies, I love taking on independent and collaborative projects, like the <a href="#/project/cena-fria-music-video" style="color: #c4ae5f;">Cena Fría</a> music video and 3D visuals for the <a href="#/project/leem-rocketry-visuals" style="color: #c4ae5f;">LEEM UPM Rocketry Team</a>.</p>
         <p>Right now, I am putting both my technical and artistic backgrounds to use as <b style="color: #ffffff;">co-director and lead programmer</b> for my university final-year game.</p>
         
-        <p class="mono tools" style="margin-top: 32px;"><b>3D &amp; art</b> Unreal Engine · Unity · 3ds Max · Maya · Blender · ZBrush · Substance<br><b>Code</b> C++ · C# · Python · Git &amp; GitHub</p>
+        <p class="mono tools" style="margin-top: 32px;"><b>3D &amp; art</b> Unreal Engine · Unity · 3ds Max · Maya · Blender · ZBrush · Substance<br><b>Code &amp; Shaders</b> C++ · C# · Python · HLSL · Unreal Shaders · Git &amp; GitHub</p>
         
         <p class="mono links" style="margin-top: 48px;">${LINKS}</p>
       </div>
@@ -805,7 +814,6 @@ function mediaEl(m){
   if(m.type==="img" && m.src) inner = `<img src="${m.src}" alt="${m.cap||""}" loading="lazy">`;
   if(m.type==="gallery" && m.images) inner = `<div class="car" data-interval="${m.interval||2500}">${m.images.map((src,k) => `<img class="car-slide" src="${src}" alt="${m.cap||""}" ${k ? 'loading="lazy"' : ""}>`).join("")}<button class="car-btn prev" aria-label="Previous image">‹</button><button class="car-btn next" aria-label="Next image">›</button><div class="car-dots">${m.images.map((_,k) => `<button aria-label="Image ${k+1}"></button>`).join("")}</div></div>`;
   if(m.type==="loop" && m.src) inner = `<video data-src="${m.src}" muted loop playsinline preload="metadata"></video>`;
-  /* Aquí le quité la propiedad 'muted' a los videos normales para que suenen */
   if(m.type==="video" && m.src) inner = `<video src="${m.src}" ${m.poster ? `poster="${m.poster}"` : ""} controls playsinline preload="metadata"></video>`;
   if(m.type==="youtube" && m.id) inner = `<iframe src="https://www.youtube-nocookie.com/embed/${m.id}${m.start ? `?start=${m.start}` : ""}" title="${m.cap||"Video"}" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   if(m.type==="spotify" && m.id) inner = `<iframe src="https://open.spotify.com/embed/track/${m.id}?utm_source=generator&theme=0" title="Spotify" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
