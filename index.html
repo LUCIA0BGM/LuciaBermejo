@@ -424,7 +424,7 @@
     <a href="#/" class="logo">Lucía Bermejo<span class="dot">.</span></a>
     <nav>
       <a href="#/" id="nav-work">Work</a>
-      <a href="#/about" id="nav-about">About</a>
+      <a href="#/about" id="nav-about">About Me</a>
     </nav>
   </div>
 </header>
@@ -654,10 +654,10 @@ const PROJECTS = [
     ]
   },
   {
-    slug: "tech-experiments",
+    slug: "tech-projects",
     index: "P06",
     tags: ["tech"],
-    title: "Tech experiments & tools",
+    title: "Tech projects & tools",
     caption: "Small Unreal and Unity exercises and a Blender plugin. Coming soon.",
     gc: "5 / 7", gr: "8 / 12",
     img: null,
@@ -666,13 +666,27 @@ const PROJECTS = [
     heroImg: null,
     blocks: [
       { num:"00", heading:"Overview", layout:"full",
-        text:["This page is a work in progress. It will collect small exercises I've made in Unreal Engine and Unity, and a plugin for Blender.","They are simpler than the projects above, and I'll add each one with a short explanation of what it does and how I built it. Coming soon."] },
-      { num:"01", heading:"Unreal Engine & Unity exercises", flip:true,
-        text:["Coming soon: small exercises, each with a short demo."],
-        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_exercise_01.mp4" } ] },
-      { num:"02", heading:"Blender plugin",
-        text:["Coming soon: the plugin and a short demo of what it does."],
-        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_plugin.mp4" } ] }
+        text:["This page is a work in progress. It will collect small exercises I've made in Unreal Engine and Unity, and a plugin for Blender.","They are simpler than the projects above."] },
+      
+      { num:"01", heading:"Blender toolkit add-on", flip:true,
+        text:[
+          "A custom Blender add-on written in Python featuring 5 specialized modeling tools:",
+          "<b>Origin to World:</b> Moves the origin of any selected object to the world center (0,0,0) in one click.",
+          "<b>Mesh Planar:</b> Three independent operators (X, Y, Z) that flatten selected vertices along a global axis.",
+          "<b>Loop Selection:</b> Step-by-step 'Expand' and 'Contract' operators for parallel loops to easily select complex patterns.",
+          "<b>Topology Check:</b> A navigation system that automatically detects and focuses on triangles and N-Gons one by one.",
+          "<b>Material Transfer:</b> A custom eyedropper tool to copy materials from a source object directly to the active selection."
+        ],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_plugin.mp4" } ] 
+      },
+      
+      { num:"02", heading:"Unreal Engine game mechanics",
+        text:[
+          "This project consisted of designing and implementing 5 core mechanics for a base game in Unreal Engine.",
+          "Once the base logic was implemented, I conducted playtesting sessions to tweak, balance, and improve the overall feel of each mechanic."
+        ],
+        media:[ { type:"video", src:"", ratio:"16/9", hint:"img/TECH_exercise_01.mp4" } ] 
+      }
     ]
   }
 ];
@@ -756,7 +770,9 @@ function renderHome(){
 
   return `
     <div class="intro">
+      <div class="mono links" style="margin: 2px 0 26px; font-size: 13px;">${LINKS}</div>
       <span class="eyebrow mono">// 3D Generalist | Game Programmer</span>
+      
       <p>${ABOUT_TEXT}</p>
     </div>
     ${filtersHTML()}
@@ -764,18 +780,20 @@ function renderHome(){
   `;
 }
 
-const LINKS = `<a href="mailto:lucia.bgm1@gmail.com">Email</a><a href="https://www.linkedin.com/in/luc%C3%ADa-bermejo-2947a9251" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.instagram.com/l0.osi/" target="_blank" rel="noopener">Instagram</a><a href="Lucia_Bermejo_CV_3DArtist.pdf" target="_blank">CV (PDF)</a>`;
+const LINKS = `<a href="mailto:lucia.bgm1@gmail.com" style="color: #4ade80;">lucia.bgm1@gmail.com</a><a href="https://www.linkedin.com/in/luc%C3%ADa-bermejo-2947a9251" target="_blank" rel="noopener" style="color: #60a5fa;">LinkedIn</a><a href="https://www.instagram.com/l0.osi/" target="_blank" rel="noopener" style="color: #f472b6;">Instagram</a><a href="Lucia_Bermejo_CV_GameDev_3DArtist.pdf" target="_blank" style="color: #ffce2e;">CV (PDF)</a><a href="https://youtu.be/aXCyK2_kl2o" target="_blank" rel="noopener" style="color: #c084fc;">3D Reel</a>`;
 
 function renderAbout(){
   return `
     <div class="intro" style="padding-top:64px; max-width:700px; margin:0 auto;">
-      <span class="eyebrow mono">// about</span>
-      <p>${ABOUT_TEXT}</p>
+      <span class="eyebrow mono">// about me</span>
+      <p>I'm a <b style="color: #ffffff;">3D Art & 3D Engineering student</b> based in Madrid, currently in my last year, actively searching for <b style="color: #ffffff;">internship opportunities in Animation or Game Dev</b>.</p>
       <div class="about-more">
-        <p>I'm now in the final year of my degree, and I've spent two years at UPIA (Audivisual Production & Innovation Unit) in CEU San Pablo University, where I worked on <a href="#/project/educational-vr-simulations">VR simulations</a> and the mobile game <a href="#/project/immunoterapp-mobile-game">Immunoterapp</a>. Alongside that, I enjoy taking on personal and collaborative projects like <a href="#/project/cena-fria-music-video">Cena Fría</a> and the visuals for the <a href="#/project/leem-rocketry-visuals">LEEM UPM Rocketry Team</a>.</p>
-        <p>Right now I'm working on my university final-year game as co-director and lead programmer, while searching for internship opportunities in the Animation & Game Dev fields.</p>
-        <p class="mono tools"><b>3D &amp; art</b> Unreal Engine · Unity · 3ds Max · Maya · Blender · ZBrush · Substance<br><b>Code</b> C++ · C# · Python · Git &amp; GitHub</p>
-        <p class="mono links">${LINKS}</p>
+        <p>Over the last few years, I've spent my time working at UPIA (Audiovisual Production & Innovation Unit) in CEU San Pablo University, where I developed <a href="#/project/educational-vr-simulations" style="color: #c4ae5f;">VR simulations</a> and the mobile game <a href="#/project/immunoterapp-mobile-game" style="color: #c4ae5f;">Immunoterapp</a>. Alongside my studies, I love taking on independent and collaborative projects, like the <a href="#/project/cena-fria-music-video" style="color: #c4ae5f;">Cena Fría</a> music video and 3D visuals for the <a href="#/project/leem-rocketry-visuals" style="color: #c4ae5f;">LEEM UPM Rocketry Team</a>.</p>
+        <p>Right now, I am putting both my technical and artistic backgrounds to use as <b style="color: #ffffff;">co-director and lead programmer</b> for my university final-year game.</p>
+        
+        <p class="mono tools" style="margin-top: 32px;"><b>3D &amp; art</b> Unreal Engine · Unity · 3ds Max · Maya · Blender · ZBrush · Substance<br><b>Code</b> C++ · C# · Python · Git &amp; GitHub</p>
+        
+        <p class="mono links" style="margin-top: 48px;">${LINKS}</p>
       </div>
     </div>
   `;
