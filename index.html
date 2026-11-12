@@ -749,6 +749,8 @@ function tileMedia(p){
   return `<div class="media tile-empty"></div>`;
 }
 
+const LINKS = `<a href="mailto:lucia.bgm1@gmail.com" style="color: #4ade80;">lucia.bgm1@gmail.com</a><a href="https://www.linkedin.com/in/luc%C3%ADa-bermejo-2947a9251" target="_blank" rel="noopener" style="color: #60a5fa;">LinkedIn</a><a href="https://www.instagram.com/l0.osi/" target="_blank" rel="noopener" style="color: #f472b6;">Instagram</a><a href="Lucia_Bermejo_CV_GameDev_3DArtist.pdf" target="_blank" style="color: #ffce2e;">CV (PDF)</a><a href="ENLACE_A_TU_REEL_AQUI" target="_blank" rel="noopener" style="color: #c084fc;">3D Reel</a>`;
+
 function renderHome(){
   const tiles = PROJECTS.map(p => `
     <a class="tile" data-tags="${p.tags.join(" ")}" style="--gc:${p.gc}; --gr:${p.gr};" href="#/project/${p.slug}">
@@ -770,17 +772,14 @@ function renderHome(){
 
   return `
     <div class="intro">
-      <div class="mono links" style="margin: 2px 0 26px; font-size: 13px;">${LINKS}</div>
       <span class="eyebrow mono">// 3D Generalist | Game Programmer</span>
-      
+      <div class="mono links" style="margin: 12px 0 24px; font-size: 13px;">${LINKS}</div>
       <p>${ABOUT_TEXT}</p>
     </div>
     ${filtersHTML()}
     <div class="grid">${tiles}</div>
   `;
 }
-
-const LINKS = `<a href="mailto:lucia.bgm1@gmail.com" style="color: #4ade80;">lucia.bgm1@gmail.com</a><a href="https://www.linkedin.com/in/luc%C3%ADa-bermejo-2947a9251" target="_blank" rel="noopener" style="color: #60a5fa;">LinkedIn</a><a href="https://www.instagram.com/l0.osi/" target="_blank" rel="noopener" style="color: #f472b6;">Instagram</a><a href="Lucia_Bermejo_CV_GameDev_3DArtist.pdf" target="_blank" style="color: #ffce2e;">CV (PDF)</a><a href="https://youtu.be/aXCyK2_kl2o" target="_blank" rel="noopener" style="color: #c084fc;">3D Reel</a>`;
 
 function renderAbout(){
   return `
